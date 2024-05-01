@@ -19,6 +19,12 @@ body {
     font-family: 'ArchitectsDaughter';
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
 footer {
     position: fixed;
     bottom: 0;
