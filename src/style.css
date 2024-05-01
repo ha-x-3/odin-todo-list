@@ -38,3 +38,12 @@ footer a {
 #content {
     display: flex;
 }
+
+#side-panel {
+    width: 25vw;
+    padding-left: 10px;
+}
+
+#main-panel {
+    width: 85vw;
+}
