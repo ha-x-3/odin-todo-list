@@ -42,8 +42,12 @@ footer a {
 #side-panel {
     width: 25vw;
     padding-left: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 #main-panel {
     width: 85vw;
+    display: flex;
+    flex-direction: column;
 }
