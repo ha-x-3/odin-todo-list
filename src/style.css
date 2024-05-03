@@ -6,6 +6,11 @@
   font-style: normal;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
     background-image: url('./deskBackground.jpg');
     background-size: cover;
@@ -21,8 +26,20 @@ body {
 
 header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    padding: 0 20px 20px 20px;
+    height: 75px;
+}
+
+button {
+    height: 50px;
+    width: 50px;
+    font-family: 'ArchitectsDaughter';
+    font-size: 18px;
+    background-color: rgba(101, 136, 31, 1);
+    color: white;
+    border-radius: 6px;
 }
 
 footer {
@@ -33,21 +50,40 @@ footer {
 footer a {
     text-decoration: none;
     color: black;
+    height: 5vh;
+}
+
+h1 {
+    font-size: 38px;
+}
+
+h2 {
+    font-size: 30px;
 }
 
 #content {
     display: flex;
+    flex-direction: row;
+    height: calc(100vh - 75px);
 }
 
 #side-panel {
     width: 25vw;
-    padding-left: 10px;
+    padding-left: 20px;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 #main-panel {
     width: 85vw;
     display: flex;
     flex-direction: column;
+    margin-left: 20px;
+    height: 100%;
+}
+
+#main-panel-desc {
+    align-self: center;
+    margin: 150px auto 0 auto;
 }
