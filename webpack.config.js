@@ -21,6 +21,9 @@ module.exports = {
 		// publicPath: '/odin-todo-list/', // <--production path
 		publicPath: '/', // <--development path
 	},
+	devServer: {
+		hot: true,
+	},
 	optimization: {
 		runtimeChunk: 'single',
 	},
