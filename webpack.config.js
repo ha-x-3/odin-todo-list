@@ -1,7 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const express = require('express');
-const webpack = require('webpack');
 
 module.exports = {
 	mode: 'development',
@@ -47,24 +45,3 @@ module.exports = {
 		],
 	},
 };
-
-const app = express();
-
-const compiler = webpack(module.exports);
-
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-
-// Use the middleware functions from webpack
-app.use(
-	webpackDevMiddleware(compiler, {
-		publicPath: module.exports.output.publicPath,
-	})
-);
-
-app.use(webpackHotMiddleware(compiler));
-
-// Start the Express server outside devServer config
-app.listen(3000, () => {
-	console.log('Server started on port 3000');
-});
