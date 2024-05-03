@@ -49,4 +49,20 @@ const createProject = (name) => {
 	saveToLocalStorage(projects);
 };
 
-export { projects, createProject }
+const editProjectName = (projectId, newName) => {
+    const project = getProject(projectId);
+    project.name = newName;
+    saveToLocalStorage(projects, projectId);
+};
+
+const deleteProject = (projectId) => {
+    const projectIndex = getProjectIndex(projectId);
+    projects.splice(projectIndex, 1);
+    saveToLocalStorage(projects, projectId);
+};
+
+const getProject = (projectId) => projects.find((project) => project.id === projectId);
+
+const getProjectIndex = (projectId) => projects.findIndex((project) => project.id === projectId);
+
+export { projects, createProject, editProjectName, deleteProject, getProject, getProjectIndex }
