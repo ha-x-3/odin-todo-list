@@ -1,16 +1,17 @@
-import { getFromLocalStorage, saveToLocalStorage } from "./localStorage";
+import { getFromLocalStorage, saveToLocalStorage, getIdFromLocalStorage } from "./localStorage";
 
 let projects = getFromLocalStorage() || [];
+let selectedProjectId = getIdFromLocalStorage();
 
-const Project = (name) => {
-
-    incrementId = (function () {
+let incrementId = (function () {
 		let id = 0;
 		return function () {
 			id++;
 			return id;
 		};
 	})();
+
+const Project = (name) => {
 
     let id = incrementId();
     let tasks = [];
@@ -65,4 +66,4 @@ const getProject = (projectId) => projects.find((project) => project.id === proj
 
 const getProjectIndex = (projectId) => projects.findIndex((project) => project.id === projectId);
 
-export { projects, createProject, editProjectName, deleteProject, getProject, getProjectIndex }
+export { projects, createProject, editProjectName, deleteProject, getProject, getProjectIndex };

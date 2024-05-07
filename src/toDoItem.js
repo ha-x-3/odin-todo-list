@@ -1,14 +1,15 @@
 import { projects, getProject, getProjectIndex } from "./project";
 import { saveToLocalStorage } from "./localStorage";
 
-const ToDoItem = (projectId, name, description, date, priority) => {
-    incrementId = (function () {
+incrementId = (function () {
 		let id = 0;
 		return function () {
 			id++;
 			return id;
 		};
 	})();
+
+const ToDoItem = (projectId, name, description, date, priority) => {
 
 	let id = incrementId();
     let complete = false;
