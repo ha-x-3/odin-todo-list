@@ -2,18 +2,22 @@ const localStorageKey = "projects";
 const localStorageIdKey = "projectId";
 
 function saveToLocalStorage(projects, selectedProjectId) {
-    localStorage.setItem(localStorageKey, JSON.stringify(projects));
-    localStorage.setItem(localStorageIdKey, JSON.stringify(selectedProjectId));
+	localStorage.setItem(localStorageKey, JSON.stringify(projects));
+	if (selectedProjectId !== null && selectedProjectId !== undefined) {
+		localStorage.setItem(localStorageIdKey, selectedProjectId);
+	} else {
+		localStorage.removeItem(localStorageIdKey);
+	}
 }
 
 function getFromLocalStorage() {
     const data = JSON.parse(localStorage.getItem(localStorageKey));
-    return data;
+    return data || [];
 }
 
 function getIdFromLocalStorage() {
-    const selectedProjectId = JSON.parse(localStorage.getItem(localStorageIdKey));
-    return selectedProjectId;
+	const selectedProjectId = localStorage.getItem(localStorageIdKey);
+	return selectedProjectId ? parseInt(selectedProjectId) : null;
 }
 
 export { saveToLocalStorage, getFromLocalStorage, getIdFromLocalStorage };

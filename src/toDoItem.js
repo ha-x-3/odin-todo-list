@@ -1,7 +1,7 @@
 import { projects, getProject, getProjectIndex } from "./project";
 import { saveToLocalStorage } from "./localStorage";
 
-incrementId = (function () {
+let incrementId = (function () {
 		let id = 0;
 		return function () {
 			id++;

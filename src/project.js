@@ -1,6 +1,6 @@
 import { getFromLocalStorage, saveToLocalStorage, getIdFromLocalStorage } from "./localStorage";
 
-let projects = getFromLocalStorage() || [];
+let projects = getFromLocalStorage();
 let selectedProjectId = getIdFromLocalStorage();
 
 let incrementId = (function () {
@@ -41,10 +41,12 @@ const createProject = (name) => {
 
 		const project = Project(newName);
 		projects.push(project);
+        selectedProjectId = project.id;
 	} else {
 		// If no project with the same name exists, create a new project with the given name
 		const project = Project(name);
 		projects.push(project);
+        selectedProjectId = project.id;
 	}
 
 	saveToLocalStorage(projects);

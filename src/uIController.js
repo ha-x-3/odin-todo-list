@@ -21,7 +21,6 @@ const UIController = (() => {
 	const addButton = document.querySelector('button');
 
 	const renderProjects = () => {
-		sidePanel.innerHTML = '';
 		const projectList = document.createElement('ul');
 		projects.forEach((project) => {
 			const projectItem = document.createElement('li');
@@ -36,7 +35,6 @@ const UIController = (() => {
 
 	const renderToDos = (projectId) => {
 		const project = getProject(projectId);
-		mainPanel.innerHTML = '';
 
 		if (project.toDoItems && project.toDoItems.length > 0) {
 			const toDoList = document.createElement('ul');
@@ -170,7 +168,7 @@ const UIController = (() => {
 	const initialize = () => {
 		renderProjects();
 		const selectedProjectId = getIdFromLocalStorage();
-		if (selectedProjectId) {
+		if (selectedProjectId !== null) {
 			renderToDos(selectedProjectId);
 		}
 	};
@@ -185,4 +183,4 @@ const UIController = (() => {
 	};
 })();
 
-export { UIController };
+export default UIController;
