@@ -35,7 +35,7 @@ const UIController = (() => {
 
 	const renderToDos = (projectId) => {
 		const project = getProject(projectId);
-
+        
 		if (project.toDoItems && project.toDoItems.length > 0) {
 			const toDoList = document.createElement('ul');
 			project.toDoItems.forEach((toDoItem) => {
@@ -49,12 +49,15 @@ const UIController = (() => {
 				});
 				const name = document.createElement('span');
 				name.textContent = toDoItem.name;
+                const description = document.createElement('span');
+                description.textContent = toDoItem.description;
 				const date = document.createElement('span');
 				date.textContent = `Due: ${toDoItem.date}`;
 				const priority = document.createElement('span');
 				priority.textContent = `Priority: ${toDoItem.priority}`;
 				toDoItemElement.appendChild(checkbox);
 				toDoItemElement.appendChild(name);
+                toDoItemElement.appendChild(description);
 				toDoItemElement.appendChild(date);
 				toDoItemElement.appendChild(priority);
 				toDoList.appendChild(toDoItemElement);
