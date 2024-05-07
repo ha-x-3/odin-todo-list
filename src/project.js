@@ -1,6 +1,6 @@
 import { getFromLocalStorage, saveToLocalStorage, getIdFromLocalStorage } from "./localStorage";
 
-let projects = getFromLocalStorage();
+let projects = getFromLocalStorage() || [];
 let selectedProjectId = getIdFromLocalStorage();
 
 let incrementId = (function () {
@@ -14,12 +14,12 @@ let incrementId = (function () {
 const Project = (name) => {
 
     let id = incrementId();
-    let tasks = [];
+    let toDoItems = [];
     let completed = [];
     return {
         id,
         name,
-        tasks,
+        toDoItems,
         completed,
     };
 
@@ -49,7 +49,7 @@ const createProject = (name) => {
         selectedProjectId = project.id;
 	}
 
-	saveToLocalStorage(projects);
+	saveToLocalStorage(projects, selectedProjectId);
 };
 
 const editProjectName = (projectId, newName) => {
