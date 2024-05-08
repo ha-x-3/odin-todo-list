@@ -21,11 +21,26 @@ const UIController = (() => {
 	const mainPanelDesc = document.querySelector('#main-panel-desc');
 	const addButton = document.querySelector('button');
 
+    const updateSelectedProjectColor = (projectId) => {
+		// Remove the selected-project class from all project items
+		sidePanel.querySelectorAll('li').forEach((item) => {
+			item.classList.remove('selected-project');
+		});
+		// Add the selected-project class to the clicked project item
+		const selectedProjectItem = sidePanel.querySelector(
+			`li[data-id="${projectId}"]`
+		);
+		if (selectedProjectItem) {
+			selectedProjectItem.classList.add('selected-project');
+		}
+	};
+
 	const renderProjects = () => {
 		const projectList = document.createElement('ul');
 		projectsData.projects.forEach((project) => {
 			const projectItem = document.createElement('li');
 			projectItem.textContent = project.name;
+            projectItem.dataset.id = project.id;
 
 			const projectControls = document.createElement('div');
 			projectControls.classList.add('todo-controls');
@@ -51,6 +66,7 @@ const UIController = (() => {
 
 			projectItem.addEventListener('click', () => {
 				renderToDos(project.id);
+                updateSelectedProjectColor(project.id);
 			});
 			projectItem.appendChild(projectControls);
 			projectList.appendChild(projectItem);

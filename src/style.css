@@ -86,14 +86,8 @@ ul {
     margin: 150px auto 0 auto;
 }
 
-.add-button {
-    height: 50px;
-    width: 50px;
-    font-family: 'ArchitectsDaughter';
-    font-size: 18px;
-    background-color: rgba(101, 136, 31, 1);
-    color: white;
-    border-radius: 6px;
+.selected-project {
+    background-color: #ebf900;
 }
 
 /* Modal Styles */
@@ -179,6 +173,16 @@ button {
 
 button:hover {
   background-color: #45a049;
+}
+
+.add-button {
+    height: 50px;
+    width: 50px;
+    font-family: 'ArchitectsDaughter';
+    font-size: 18px;
+    background-color: rgba(101, 136, 31, 1);
+    color: white;
+    border-radius: 6px;
 }
 
 /* ToDo Item Styles */
