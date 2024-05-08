@@ -55,19 +55,56 @@ const UIController = (() => {
 					toDoItem.complete = checkbox.checked;
 					saveToLocalStorage(projectsData.projects, projectId);
 				});
+				const todoDetails = document.createElement('div');
+				todoDetails.classList.add('todo-details');
+
 				const name = document.createElement('span');
+				name.classList.add('todo-name');
 				name.textContent = toDoItem.name;
+
 				const description = document.createElement('span');
+				description.classList.add('todo-description');
 				description.textContent = toDoItem.description;
+
 				const date = document.createElement('span');
+				date.classList.add('todo-due-date');
 				date.textContent = `Due: ${toDoItem.date}`;
-				const priority = document.createElement('span');
-				priority.textContent = `Priority: ${toDoItem.priority}`;
+
+				const priorityBlock = document.createElement('div');
+				priorityBlock.classList.add('priority-block');
+				priorityBlock.classList.add(
+					`priority-${toDoItem.priority.toLowerCase()}`
+				);
+
+				const todoControls = document.createElement('div');
+				todoControls.classList.add('todo-controls');
+
+				const editBtn = document.createElement('button');
+				editBtn.classList.add('edit-btn');
+				editBtn.textContent = 'Edit';
+				editBtn.addEventListener('click', () => {
+					showEditModal(projectId, toDoItem.id);
+				});
+
+				const deleteBtn = document.createElement('button');
+				deleteBtn.classList.add('delete-btn');
+				deleteBtn.textContent = 'X';
+				deleteBtn.addEventListener('click', () => {
+					showDeleteModal(projectId, toDoItem.id);
+				});
+
+				todoControls.appendChild(editBtn);
+				todoControls.appendChild(deleteBtn);
+
+				todoDetails.appendChild(name);
+				todoDetails.appendChild(description);
+				todoDetails.appendChild(date);
+
 				toDoItemElement.appendChild(checkbox);
-				toDoItemElement.appendChild(name);
-				toDoItemElement.appendChild(description);
-				toDoItemElement.appendChild(date);
-				toDoItemElement.appendChild(priority);
+				toDoItemElement.appendChild(todoDetails);
+				toDoItemElement.appendChild(priorityBlock);
+				toDoItemElement.appendChild(todoControls);
+
 				toDoList.appendChild(toDoItemElement);
 			});
 			mainPanel.appendChild(toDoList);
@@ -184,6 +221,107 @@ const UIController = (() => {
 		modal.appendChild(modalContent);
 		document.body.appendChild(modal);
 	};
+
+    const showEditModal = (projectId, toDoItemId) => {
+		const toDoItem = getToDoItem(projectId, toDoItemId);
+
+		const editModal = document.createElement('div');
+		editModal.classList.add('modal');
+
+		const modalContent = document.createElement('div');
+		modalContent.classList.add('modal-content');
+
+		const nameInput = document.createElement('input');
+		nameInput.type = 'text';
+		nameInput.placeholder = 'Name';
+		nameInput.value = toDoItem.name;
+
+		const descriptionInput = document.createElement('input');
+		descriptionInput.type = 'text';
+		descriptionInput.placeholder = 'Description';
+		descriptionInput.value = toDoItem.description;
+
+		const dateInput = document.createElement('input');
+		dateInput.type = 'date';
+		dateInput.value = toDoItem.date;
+
+		const priorityInput = document.createElement('select');
+		const priorityOptions = ['Low', 'Medium', 'High'];
+		priorityOptions.forEach((option) => {
+			const priorityOption = document.createElement('option');
+			priorityOption.value = option.toLowerCase();
+			priorityOption.textContent = option;
+			if (option.toLowerCase() === toDoItem.priority.toLowerCase()) {
+				priorityOption.selected = true;
+			}
+			priorityInput.appendChild(priorityOption);
+		});
+
+		const saveButton = document.createElement('button');
+		saveButton.textContent = 'Save Changes';
+		saveButton.addEventListener('click', () => {
+			editToDoItem(
+				projectId,
+				toDoItemId,
+				nameInput.value,
+				descriptionInput.value,
+				dateInput.value,
+				priorityInput.value
+			);
+			editModal.remove();
+			renderToDos(projectId);
+		});
+
+		const cancelButton = document.createElement('button');
+		cancelButton.textContent = 'Cancel';
+		cancelButton.addEventListener('click', () => {
+			editModal.remove();
+		});
+
+		modalContent.appendChild(nameInput);
+		modalContent.appendChild(descriptionInput);
+		modalContent.appendChild(dateInput);
+		modalContent.appendChild(priorityInput);
+		modalContent.appendChild(saveButton);
+		modalContent.appendChild(cancelButton);
+
+		editModal.appendChild(modalContent);
+		document.body.appendChild(editModal);
+	};
+
+    const showDeleteModal = (projectId, toDoItemId) => {
+		const deleteModal = document.createElement('div');
+		deleteModal.classList.add('modal');
+
+		const modalContent = document.createElement('div');
+		modalContent.classList.add('modal-content');
+
+		const message = document.createElement('p');
+		message.textContent =
+			'Are you sure you want to delete this to-do item?';
+
+		const confirmButton = document.createElement('button');
+		confirmButton.textContent = 'Confirm';
+		confirmButton.addEventListener('click', () => {
+			deleteToDoItem(projectId, toDoItemId);
+			renderToDos(projectId);
+			deleteModal.remove();
+		});
+
+		const cancelButton = document.createElement('button');
+		cancelButton.textContent = 'Cancel';
+		cancelButton.addEventListener('click', () => {
+			deleteModal.remove();
+		});
+
+		modalContent.appendChild(message);
+		modalContent.appendChild(confirmButton);
+		modalContent.appendChild(cancelButton);
+
+		deleteModal.appendChild(modalContent);
+		document.body.appendChild(deleteModal);
+	};
+
 	// Render projects and to-do items on initial load
 	const initialize = () => {
 		renderProjects();

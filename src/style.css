@@ -52,6 +52,10 @@ h2 {
     text-decoration: underline;
 }
 
+ul {
+    width: 90%;
+}
+
 #content {
     display: flex;
     flex-direction: row;
@@ -80,6 +84,16 @@ h2 {
 #main-panel-desc {
     align-self: center;
     margin: 150px auto 0 auto;
+}
+
+.add-button {
+    height: 50px;
+    width: 50px;
+    font-family: 'ArchitectsDaughter';
+    font-size: 18px;
+    background-color: rgba(101, 136, 31, 1);
+    color: white;
+    border-radius: 6px;
 }
 
 /* Modal Styles */
@@ -166,50 +180,80 @@ button {
 button:hover {
   background-color: #45a049;
 }
+
 /* ToDo Item Styles */
 li {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 li input[type="checkbox"] {
   margin-right: 10px;
 }
 
-li span {
-  margin-right: 10px;
+li .todo-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-li span:last-child {
-  margin-right: 0;
+li .todo-name {
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
-/* Priority Styles */
-select {
-  padding: 5px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+li .todo-description,
+li .todo-due-date {
+  margin-bottom: 2px;
 }
 
-option[value="low"] {
-  color: green;
+li .priority-block {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-left: 20px;
 }
 
-option[value="medium"] {
-  color: orange;
+.priority-low {
+  background-color: green;
 }
 
-option[value="high"] {
-  color: red;
+.priority-medium {
+  background-color: orange;
 }
 
-.add-button {
-    height: 50px;
-    width: 50px;
-    font-family: 'ArchitectsDaughter';
-    font-size: 18px;
-    background-color: rgba(101, 136, 31, 1);
-    color: white;
-    border-radius: 6px;
+.priority-high {
+  background-color: red;
+}
+
+/* Edit and Delete Button Styles */
+.todo-controls {
+  display: flex;
+  align-items: center;
+}
+
+.todo-controls button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.todo-controls button:hover {
+  color: #333;
+}
+
+.todo-controls .edit-btn {
+  color: #4CAF50;
+}
+
+.todo-controls .delete-btn {
+  color: #f44336;
 }
