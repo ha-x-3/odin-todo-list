@@ -14,6 +14,7 @@ import {
 	getToDoItem,
 } from './toDoItem';
 import { saveToLocalStorage, getFromLocalStorage, getIdFromLocalStorage } from './localStorage';
+import { format, formatDistanceToNow } from 'date-fns';
 
 const UIController = (() => {
 	const sidePanel = document.querySelector('#side-panel');
@@ -47,7 +48,6 @@ const UIController = (() => {
             name.classList.add('project-name');
 			name.textContent = project.name;
             
-
 			const projectControls = document.createElement('div');
 			projectControls.classList.add('project-controls');
 
@@ -83,6 +83,10 @@ const UIController = (() => {
 	};
 
 	const renderToDos = (projectId) => {
+        const formatDate = (dateString) => {
+			return format(new Date(dateString), 'MM-dd-yyyy');
+		};
+        
 		const project = getProject(projectId);
 		// Clear the existing content inside the mainPanel, except for the h2 element
 		const mainPanelChildren = Array.from(mainPanel.children);
@@ -116,7 +120,7 @@ const UIController = (() => {
 
 				const date = document.createElement('span');
 				date.classList.add('todo-due-date');
-				date.textContent = `Due: ${toDoItem.date}`;
+				date.textContent = `Due: ${formatDate(toDoItem.date)}, which is in ${formatDistanceToNow(toDoItem.date)}!`;
 
 				const priorityBlock = document.createElement('div');
 				priorityBlock.classList.add('priority-block');

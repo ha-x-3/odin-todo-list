@@ -212,8 +212,12 @@ li .project-details {
 }
 
 li .todo-name {
-  font-weight: bold;
+  font-size: 20px;
   margin-bottom: 5px;
+}
+
+li .project-name {
+    font-size: 20px;
 }
 
 li .todo-description,
