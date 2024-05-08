@@ -36,8 +36,14 @@ const UIController = (() => {
 
 	const renderToDos = (projectId) => {
 		const project = getProject(projectId);
-        mainPanel.innerHTML = '';
-        
+		// Clear the existing content inside the mainPanel, except for the h2 element
+		const mainPanelChildren = Array.from(mainPanel.children);
+		mainPanelChildren.forEach((child) => {
+			if (child.tagName !== 'H2') {
+				child.remove();
+			}
+		});
+
 		if (project.toDoItems && project.toDoItems.length > 0) {
 			const toDoList = document.createElement('ul');
 			project.toDoItems.forEach((toDoItem) => {
@@ -51,15 +57,15 @@ const UIController = (() => {
 				});
 				const name = document.createElement('span');
 				name.textContent = toDoItem.name;
-                const description = document.createElement('span');
-                description.textContent = toDoItem.description;
+				const description = document.createElement('span');
+				description.textContent = toDoItem.description;
 				const date = document.createElement('span');
 				date.textContent = `Due: ${toDoItem.date}`;
 				const priority = document.createElement('span');
 				priority.textContent = `Priority: ${toDoItem.priority}`;
 				toDoItemElement.appendChild(checkbox);
 				toDoItemElement.appendChild(name);
-                toDoItemElement.appendChild(description);
+				toDoItemElement.appendChild(description);
 				toDoItemElement.appendChild(date);
 				toDoItemElement.appendChild(priority);
 				toDoList.appendChild(toDoItemElement);

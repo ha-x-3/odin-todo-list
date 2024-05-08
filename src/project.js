@@ -47,14 +47,12 @@ const createProject = (name) => {
 		}
 
 		const project = Project(newName);
-		const updatedProjects = [...projectsData.projects, project];
-		projectsData.setProjects(updatedProjects);
+		projectsData.projects.push(project);
 		selectedProjectId = project.id;
 	} else {
 		// If no project with the same name exists, create a new project with the given name
 		const project = Project(name);
-		const updatedProjects = [...projectsData.projects, project];
-		projectsData.setProjects(updatedProjects);
+		projectsData.projects.push(project);
 		selectedProjectId = project.id;
 	}
 
