@@ -39,11 +39,16 @@ const UIController = (() => {
 		const projectList = document.createElement('ul');
 		projectsData.projects.forEach((project) => {
 			const projectItem = document.createElement('li');
-			projectItem.textContent = project.name;
-            projectItem.dataset.id = project.id;
+            const projectDetails = document.createElement('div');
+            projectDetails.classList.add('project-details');
+
+            const name = document.createElement('span');
+            name.classList.add('project-name');
+			name.textContent = project.name;
+            name.dataset.id = project.id;
 
 			const projectControls = document.createElement('div');
-			projectControls.classList.add('todo-controls');
+			projectControls.classList.add('project-controls');
 
 			// Edit button
 			const editBtn = document.createElement('button');
@@ -68,6 +73,8 @@ const UIController = (() => {
 				renderToDos(project.id);
                 updateSelectedProjectColor(project.id);
 			});
+            projectDetails.appendChild(name);
+            projectItem.appendChild(projectDetails);
 			projectItem.appendChild(projectControls);
 			projectList.appendChild(projectItem);
 		});
@@ -142,8 +149,8 @@ const UIController = (() => {
 
 				toDoItemElement.appendChild(checkbox);
 				toDoItemElement.appendChild(todoDetails);
-				toDoItemElement.appendChild(priorityBlock);
 				toDoItemElement.appendChild(todoControls);
+                toDoItemElement.appendChild(priorityBlock);
 
 				toDoList.appendChild(toDoItemElement);
 			});

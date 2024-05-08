@@ -185,10 +185,11 @@ button:hover {
     border-radius: 6px;
 }
 
-/* ToDo Item Styles */
+/* Project and ToDo Item Styles */
 li {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   margin-bottom: 10px;
   padding: 10px;
   background-color: #fff;
@@ -204,6 +205,10 @@ li .todo-details {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+}
+
+li .project-details {
+    flex-grow: 1;
 }
 
 li .todo-name {
@@ -236,12 +241,13 @@ li .priority-block {
 }
 
 /* Edit and Delete Button Styles */
-.todo-controls {
+.project-controls, .todo-controls {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 }
 
-.todo-controls button {
+.project-controls button, .todo-controls button {
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -250,14 +256,14 @@ li .priority-block {
   color: #666;
 }
 
-.todo-controls button:hover {
+.project-controls button:hover, .todo-controls button:hover {
   color: #333;
 }
 
-.todo-controls .edit-btn {
+.project-controls .edit-btn, .todo-controls .edit-btn {
   color: #4CAF50;
 }
 
-.todo-controls .delete-btn {
+.project-controls .delete-btn, .todo-controls .delete-btn {
   color: #f44336;
 }
