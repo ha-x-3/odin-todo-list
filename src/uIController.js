@@ -39,13 +39,14 @@ const UIController = (() => {
 		const projectList = document.createElement('ul');
 		projectsData.projects.forEach((project) => {
 			const projectItem = document.createElement('li');
+            projectItem.dataset.id = project.id;
             const projectDetails = document.createElement('div');
             projectDetails.classList.add('project-details');
 
             const name = document.createElement('span');
             name.classList.add('project-name');
 			name.textContent = project.name;
-            name.dataset.id = project.id;
+            
 
 			const projectControls = document.createElement('div');
 			projectControls.classList.add('project-controls');
