@@ -1,15 +1,22 @@
-import { getFromLocalStorage, saveToLocalStorage, getIdFromLocalStorage } from "./localStorage";
+import { getFromLocalStorage, saveToLocalStorage, getIdFromLocalStorage, saveIncrementId, getIncrementId } from "./localStorage";
 
-let projects = getFromLocalStorage() || [];
+const projectsData = {
+	projects: getFromLocalStorage() || [],
+	setProjects: function (newProjects) {
+		this.projects = newProjects;
+	},
+};
 let selectedProjectId = getIdFromLocalStorage();
 
 let incrementId = (function () {
-		let id = 0;
-		return function () {
-			id++;
-			return id;
-		};
-	})();
+	let id = getIncrementId();
+	return function () {
+		id++;
+		saveIncrementId(id);
+		return id;
+	};
+})();
+
 
 const Project = (name) => {
 
@@ -27,45 +34,49 @@ const Project = (name) => {
 
 const createProject = (name) => {
 	// Check if a project with the same name already exists
-	const existingProject = projects.find((project) => project.name === name);
+	const existingProject = projectsData.projects.find((project) => project.name === name);
 
 	if (existingProject) {
 		// If a project with the same name exists, add a number to the end of the name
 		let counter = 1;
 		let newName = `${name} (${counter})`;
 
-		while (projects.find((project) => project.name === newName)) {
+		while (projectsData.projects.find((project) => project.name === newName)) {
 			counter++;
 			newName = `${name} (${counter})`;
 		}
 
 		const project = Project(newName);
-		projects.push(project);
-        selectedProjectId = project.id;
+		const updatedProjects = [...projectsData.projects, project];
+		projectsData.setProjects(updatedProjects);
+		selectedProjectId = project.id;
 	} else {
 		// If no project with the same name exists, create a new project with the given name
 		const project = Project(name);
-		projects.push(project);
-        selectedProjectId = project.id;
+		const updatedProjects = [...projectsData.projects, project];
+		projectsData.setProjects(updatedProjects);
+		selectedProjectId = project.id;
 	}
 
-	saveToLocalStorage(projects, selectedProjectId);
+	saveToLocalStorage(projectsData.projects, selectedProjectId);
 };
 
 const editProjectName = (projectId, newName) => {
     const project = getProject(projectId);
     project.name = newName;
-    saveToLocalStorage(projects, projectId);
+    saveToLocalStorage(projectsData.projects, projectId);
 };
 
 const deleteProject = (projectId) => {
     const projectIndex = getProjectIndex(projectId);
-    projects.splice(projectIndex, 1);
-    saveToLocalStorage(projects, projectId);
+	const updatedProjects = [...projectsData.projects];
+	updatedProjects.splice(projectIndex, 1);
+	projectsData.setProjects(updatedProjects);
+	saveToLocalStorage(projectsData.projects, projectId);
 };
 
-const getProject = (projectId) => projects.find((project) => project.id === projectId);
+const getProject = (projectId) => projectsData.projects.find((project) => project.id === projectId);
 
-const getProjectIndex = (projectId) => projects.findIndex((project) => project.id === projectId);
+const getProjectIndex = (projectId) => projectsData.projects.findIndex((project) => project.id === projectId);
 
-export { projects, createProject, editProjectName, deleteProject, getProject, getProjectIndex };
+export { projectsData, createProject, editProjectName, deleteProject, getProject, getProjectIndex, selectedProjectId };

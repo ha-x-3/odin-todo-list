@@ -16,4 +16,13 @@ function getIdFromLocalStorage() {
     return selectedProjectId;
 }
 
-export { saveToLocalStorage, getFromLocalStorage, getIdFromLocalStorage };
+function saveIncrementId(id) {
+	localStorage.setItem('incrementId', JSON.stringify(id));
+}
+
+function getIncrementId() {
+	const id = JSON.parse(localStorage.getItem('incrementId'));
+	return id || 0;
+}
+
+export { saveToLocalStorage, getFromLocalStorage, getIdFromLocalStorage, saveIncrementId, getIncrementId };

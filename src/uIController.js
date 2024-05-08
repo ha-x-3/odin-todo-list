@@ -1,9 +1,10 @@
 import {
 	createProject,
-	projects,
+	projectsData,
 	editProjectName,
 	deleteProject,
 	getProject,
+    selectedProjectId
 } from './project';
 import {
 	createToDoItem,
@@ -22,7 +23,7 @@ const UIController = (() => {
 
 	const renderProjects = () => {
 		const projectList = document.createElement('ul');
-		projects.forEach((project) => {
+		projectsData.projects.forEach((project) => {
 			const projectItem = document.createElement('li');
 			projectItem.textContent = project.name;
 			projectItem.addEventListener('click', () => {
@@ -35,6 +36,7 @@ const UIController = (() => {
 
 	const renderToDos = (projectId) => {
 		const project = getProject(projectId);
+        mainPanel.innerHTML = '';
         
 		if (project.toDoItems && project.toDoItems.length > 0) {
 			const toDoList = document.createElement('ul');
@@ -45,7 +47,7 @@ const UIController = (() => {
 				checkbox.checked = toDoItem.complete;
 				checkbox.addEventListener('change', () => {
 					toDoItem.complete = checkbox.checked;
-					saveToLocalStorage(projects, projectId);
+					saveToLocalStorage(projectsData.projects, projectId);
 				});
 				const name = document.createElement('span');
 				name.textContent = toDoItem.name;
@@ -112,7 +114,7 @@ const UIController = (() => {
 			toDoPriorityInput.appendChild(priorityOption);
 		});
 		const projectSelect = document.createElement('select');
-		projects.forEach((project) => {
+		projectsData.projects.forEach((project) => {
 			const projectOption = document.createElement('option');
 			projectOption.value = project.id;
 			projectOption.textContent = project.name;
@@ -129,7 +131,16 @@ const UIController = (() => {
 				toDoDateInput.value,
 				toDoPriorityInput.value
 			);
-			renderToDos(selectedProjectId);
+			const project = getProject(selectedProjectId);
+			if (project.toDoItems.length > 0) {
+				renderToDos(selectedProjectId);
+			} else {
+				mainPanel.innerHTML = '';
+				const noToDoMessage = document.createElement('p');
+				noToDoMessage.textContent = 'No to-do items for this project.';
+				mainPanel.appendChild(noToDoMessage);
+				mainPanelDesc.style.display = 'none';
+			}
 			modal.remove();
 		});
 		toDoTab.appendChild(toDoNameInput);
@@ -170,7 +181,6 @@ const UIController = (() => {
 	// Render projects and to-do items on initial load
 	const initialize = () => {
 		renderProjects();
-		const selectedProjectId = getIdFromLocalStorage();
 		if (selectedProjectId !== null) {
 			renderToDos(selectedProjectId);
 		}
