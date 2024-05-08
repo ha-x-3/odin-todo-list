@@ -40,14 +40,14 @@ const UIController = (() => {
 		const projectList = document.createElement('ul');
 		projectsData.projects.forEach((project) => {
 			const projectItem = document.createElement('li');
-            projectItem.dataset.id = project.id;
-            const projectDetails = document.createElement('div');
-            projectDetails.classList.add('project-details');
+			projectItem.dataset.id = project.id;
+			const projectDetails = document.createElement('div');
+			projectDetails.classList.add('project-details');
 
-            const name = document.createElement('span');
-            name.classList.add('project-name');
+			const name = document.createElement('span');
+			name.classList.add('project-name');
 			name.textContent = project.name;
-            
+
 			const projectControls = document.createElement('div');
 			projectControls.classList.add('project-controls');
 
@@ -72,12 +72,19 @@ const UIController = (() => {
 
 			projectItem.addEventListener('click', () => {
 				renderToDos(project.id);
-                updateSelectedProjectColor(project.id);
+				updateSelectedProjectColor(project.id);
 			});
-            projectDetails.appendChild(name);
-            projectItem.appendChild(projectDetails);
+			projectDetails.appendChild(name);
+			projectItem.appendChild(projectDetails);
 			projectItem.appendChild(projectControls);
 			projectList.appendChild(projectItem);
+		});
+		// Clear the existing content inside the mainPanel, except for the h2 element
+		const sidePanelChildren = Array.from(sidePanel.children);
+		sidePanelChildren.forEach((child) => {
+			if (child.tagName !== 'H2') {
+				child.remove();
+			}
 		});
 		sidePanel.appendChild(projectList);
 	};
@@ -220,7 +227,6 @@ const UIController = (() => {
 		toDoSubmitButton.classList.add('submit-button');
 		toDoSubmitButton.textContent = 'Add ToDo';
 		toDoSubmitButton.addEventListener('click', () => {
-			const selectedProjectId = getIdFromLocalStorage();
 			createToDoItem(
 				selectedProjectId,
 				toDoNameInput.value,
@@ -318,6 +324,14 @@ const UIController = (() => {
 			priorityInput.appendChild(priorityOption);
 		});
 
+        const projectSelect = document.createElement('select');
+        projectsData.projects.forEach((project) => {
+			const projectOption = document.createElement('option');
+			projectOption.value = project.id;
+			projectOption.textContent = project.name;
+			projectSelect.appendChild(projectOption);
+		});
+
 		const saveButton = document.createElement('button');
 		saveButton.textContent = 'Save Changes';
 		saveButton.addEventListener('click', () => {
@@ -343,6 +357,7 @@ const UIController = (() => {
 		modalContent.appendChild(descriptionInput);
 		modalContent.appendChild(dateInput);
 		modalContent.appendChild(priorityInput);
+        modalContent.appendChild(projectSelect);
 		modalContent.appendChild(saveButton);
 		modalContent.appendChild(cancelButton);
 
