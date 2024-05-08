@@ -26,9 +26,33 @@ const UIController = (() => {
 		projectsData.projects.forEach((project) => {
 			const projectItem = document.createElement('li');
 			projectItem.textContent = project.name;
+
+			const projectControls = document.createElement('div');
+			projectControls.classList.add('todo-controls');
+
+			// Edit button
+			const editBtn = document.createElement('button');
+			editBtn.classList.add('edit-btn');
+			editBtn.textContent = 'Edit';
+			editBtn.addEventListener('click', () => {
+				showEditProjectModal(project.id);
+			});
+
+			// Delete button
+			const deleteBtn = document.createElement('button');
+			deleteBtn.classList.add('delete-btn');
+			deleteBtn.textContent = 'X';
+			deleteBtn.addEventListener('click', () => {
+				showDeleteProjectModal(project.id);
+			});
+
+			projectControls.appendChild(editBtn);
+			projectControls.appendChild(deleteBtn);
+
 			projectItem.addEventListener('click', () => {
 				renderToDos(project.id);
 			});
+			projectItem.appendChild(projectControls);
 			projectList.appendChild(projectItem);
 		});
 		sidePanel.appendChild(projectList);
@@ -222,7 +246,7 @@ const UIController = (() => {
 		document.body.appendChild(modal);
 	};
 
-    const showEditModal = (projectId, toDoItemId) => {
+	const showEditModal = (projectId, toDoItemId) => {
 		const toDoItem = getToDoItem(projectId, toDoItemId);
 
 		const editModal = document.createElement('div');
@@ -289,7 +313,7 @@ const UIController = (() => {
 		document.body.appendChild(editModal);
 	};
 
-    const showDeleteModal = (projectId, toDoItemId) => {
+	const showDeleteModal = (projectId, toDoItemId) => {
 		const deleteModal = document.createElement('div');
 		deleteModal.classList.add('modal');
 
@@ -305,6 +329,82 @@ const UIController = (() => {
 		confirmButton.addEventListener('click', () => {
 			deleteToDoItem(projectId, toDoItemId);
 			renderToDos(projectId);
+			deleteModal.remove();
+		});
+
+		const cancelButton = document.createElement('button');
+		cancelButton.textContent = 'Cancel';
+		cancelButton.addEventListener('click', () => {
+			deleteModal.remove();
+		});
+
+		modalContent.appendChild(message);
+		modalContent.appendChild(confirmButton);
+		modalContent.appendChild(cancelButton);
+
+		deleteModal.appendChild(modalContent);
+		document.body.appendChild(deleteModal);
+	};
+
+	const showEditProjectModal = (projectId) => {
+		const project = getProject(projectId);
+
+		const editModal = document.createElement('div');
+		editModal.classList.add('modal');
+
+		const modalContent = document.createElement('div');
+		modalContent.classList.add('modal-content');
+
+		const nameInput = document.createElement('input');
+		nameInput.type = 'text';
+		nameInput.placeholder = 'Project Name';
+		nameInput.value = project.name || '';
+
+		const saveButton = document.createElement('button');
+		saveButton.textContent = 'Save Changes';
+		saveButton.addEventListener('click', () => {
+			const newName = nameInput.value;
+			editProjectName(projectId, newName);
+			// Clear the existing content inside the sidePanel, except for the h2 element
+			const sidePanelChildren = Array.from(sidePanel.children);
+			sidePanelChildren.forEach((child) => {
+				if (child.tagName !== 'H2') {
+					child.remove();
+				}
+			});
+			renderProjects();
+			editModal.remove();
+		});
+
+		const cancelButton = document.createElement('button');
+		cancelButton.textContent = 'Cancel';
+		cancelButton.addEventListener('click', () => {
+			editModal.remove();
+		});
+
+		modalContent.appendChild(nameInput);
+		modalContent.appendChild(saveButton);
+		modalContent.appendChild(cancelButton);
+
+		editModal.appendChild(modalContent);
+		document.body.appendChild(editModal);
+	};
+
+	const showDeleteProjectModal = (projectId) => {
+		const deleteModal = document.createElement('div');
+		deleteModal.classList.add('modal');
+
+		const modalContent = document.createElement('div');
+		modalContent.classList.add('modal-content');
+
+		const message = document.createElement('p');
+		message.textContent = 'Are you sure you want to delete this project?';
+
+		const confirmButton = document.createElement('button');
+		confirmButton.textContent = 'Confirm';
+		confirmButton.addEventListener('click', () => {
+			deleteProject(projectId);
+			renderProjects();
 			deleteModal.remove();
 		});
 
