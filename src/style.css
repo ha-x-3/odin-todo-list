@@ -50,6 +50,7 @@ h1 {
 h2 {
     font-size: 30px;
     text-decoration: underline;
+    padding-bottom: 10px;
 }
 
 ul {
@@ -115,6 +116,20 @@ ul {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
+.modal-content > * {
+  margin-bottom: 10px; /* Add some vertical spacing between elements */
+}
+
+.modal-content input[type="date"],
+.modal-content select {
+  flex-grow: 1;
+  margin: 14px;
+}
+
+.modal-content .add-button {
+  width: 100px;
+}
+
 /* Tab Styles */
 .tab-buttons {
   display: flex;
@@ -123,7 +138,7 @@ ul {
 }
 
 .tab-buttons button {
-  background-color: #f2f2f2;
+  background-color: #4CAF50;
   border: none;
   outline: none;
   cursor: pointer;
@@ -132,16 +147,14 @@ ul {
   border-radius: 5px;
 }
 
-.tab-buttons button.active {
-  background-color: #4CAF50;
-  color: white;
+.tab-buttons button.active, .submit-button {
+  filter: hue-rotate(90deg);
 }
 
 .tab {
   display: none;
   padding: 6px 12px;
   border: 1px solid #ccc;
-  border-top: none;
   border-radius: 0 0 5px 5px;
 }
 
@@ -172,7 +185,7 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  filter: hue-rotate(90deg);
 }
 
 .add-button {

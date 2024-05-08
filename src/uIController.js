@@ -181,6 +181,7 @@ const UIController = (() => {
 		projectInput.type = 'text';
 		projectInput.placeholder = 'Project Name';
 		const projectSubmitButton = document.createElement('button');
+		projectSubmitButton.classList.add('submit-button');
 		projectSubmitButton.textContent = 'Add Project';
 		projectSubmitButton.addEventListener('click', () => {
 			createProject(projectInput.value);
@@ -216,6 +217,7 @@ const UIController = (() => {
 			projectSelect.appendChild(projectOption);
 		});
 		const toDoSubmitButton = document.createElement('button');
+		toDoSubmitButton.classList.add('submit-button');
 		toDoSubmitButton.textContent = 'Add ToDo';
 		toDoSubmitButton.addEventListener('click', () => {
 			const selectedProjectId = getIdFromLocalStorage();
@@ -264,8 +266,15 @@ const UIController = (() => {
 			toDoTabButton.classList.add('active');
 			projectTabButton.classList.remove('active');
 		});
+		// Create close button (X)
+		const closeButton = document.createElement('button');
+		closeButton.textContent = 'X';
+		closeButton.addEventListener('click', () => {
+			modal.remove();
+		});
 		tabButtons.appendChild(projectTabButton);
 		tabButtons.appendChild(toDoTabButton);
+        tabButtons.appendChild(closeButton);
 
 		modalContent.appendChild(tabButtons);
 		modalContent.appendChild(projectTab);
