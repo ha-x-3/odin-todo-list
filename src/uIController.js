@@ -451,7 +451,7 @@ const UIController = (() => {
 					child.remove();
 				}
 			});
-			//renderProjects();
+			renderProjects();
 			editModal.remove();
 		});
 
