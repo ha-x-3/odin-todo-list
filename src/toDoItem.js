@@ -1,5 +1,6 @@
 import { projects, getProject } from "./project";
 import { saveToLocalStorage } from "./localStorage";
+import UIController from "./uIController";
 
 const ToDoItem = (projectId, name, description, date, priority) => {
 
@@ -79,12 +80,25 @@ const deleteToDoItem = (projectId, toDoItemId) => {
 };
 
 const markComplete = (projectId, toDoItemId) => {
-    const project = getProject(projectId);
+	const project = getProject(projectId);
 	const toDoItem = getToDoItem(projectId, toDoItemId);
-	const toDoItemIndex = getToDoItemIndex(projectId, toDoItemId);
-    project.completed.unshift(toDoItem);
-	project.toDoItems.splice(toDoItemIndex, 1);
+	// Toggle the complete status of the to-do item
+	toDoItem.complete = !toDoItem.complete;
+
+	if (toDoItem.complete) {
+		// Add the to-do item to the completed array of the project
+		project.completed.push(toDoItem);
+	} else {
+		// Remove the to-do item from the completed array of the project
+		const completedIndex = project.completed.findIndex(
+			(item) => item.id === toDoItemId
+		);
+		if (completedIndex !== -1) {
+			project.completed.splice(completedIndex, 1);
+		}
+	}
 	saveToLocalStorage(projects, projectId);
+    UIController.renderToDos(projectId);
 };
 
 const getToDoItem = (projectId, toDoItemId) => {

@@ -121,9 +121,13 @@ const UIController = (() => {
 				checkbox.type = 'checkbox';
 				checkbox.checked = toDoItem.complete;
 				checkbox.addEventListener('change', () => {
-					toDoItem.complete = checkbox.checked;
-					saveToLocalStorage(projects, projectId);
+					markComplete(projectId, toDoItem.id);
 				});
+				// If the to-do item is completed, change its background color
+				if (toDoItem.complete) {
+					toDoItemElement.style.backgroundColor = 'grey';
+				}
+
 				const todoDetails = document.createElement('div');
 				todoDetails.classList.add('todo-details');
 
