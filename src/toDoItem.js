@@ -46,15 +46,28 @@ const editToDoItem = (
     newName,
     newDescription,
     newDate,
-    newPriority
+    newPriority, 
+    newProjectId
 ) => {
-    const toDoItem = getToDoItem(projectId, toDoItemId);
-	
-    toDoItem.name = newName;
-    toDoItem.description = newDescription;
-    toDoItem.date = newDate;
-    toDoItem.priority = newPriority;
-	
+	const oldProject = getProject(projectId);
+	const toDoItem = getToDoItem(projectId, toDoItemId);
+
+	// Remove the to-do item from the old project
+	const toDoItemIndex = getToDoItemIndex(projectId, toDoItemId);
+	oldProject.toDoItems.splice(toDoItemIndex, 1);
+
+	// Update the projectId to the new one
+	toDoItem.projectId = newProjectId;
+
+	// Add the to-do item to the new project
+	const newProject = getProject(newProjectId);
+	newProject.toDoItems.push(toDoItem);
+
+	toDoItem.name = newName;
+	toDoItem.description = newDescription;
+	toDoItem.date = newDate;
+	toDoItem.priority = newPriority;
+
 	saveToLocalStorage(projects, projectId);
 };
 

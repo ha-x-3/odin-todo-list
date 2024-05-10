@@ -227,6 +227,10 @@ const UIController = (() => {
 			toDoPriorityInput.appendChild(priorityOption);
 		});
 		const projectSelect = document.createElement('select');
+        const defaultOption = document.createElement('option');
+		defaultOption.value = '';
+		defaultOption.textContent = 'Pick a Project';
+        projectSelect.appendChild(defaultOption);
 		projects.forEach((project) => {
 			const projectOption = document.createElement('option');
 			projectOption.value = project.id;
@@ -339,6 +343,10 @@ const UIController = (() => {
 		});
 
         const projectSelect = document.createElement('select');
+        const defaultOption = document.createElement('option');
+		defaultOption.value = '';
+		defaultOption.textContent = 'Pick a Project';
+        projectSelect.appendChild(defaultOption);
         projects.forEach((project) => {
 			const projectOption = document.createElement('option');
 			projectOption.value = project.id;
@@ -352,16 +360,18 @@ const UIController = (() => {
 		const saveButton = document.createElement('button');
 		saveButton.textContent = 'Save Changes';
 		saveButton.addEventListener('click', () => {
+            const newProjectId = parseInt(projectSelect.value);
 			editToDoItem(
 				projectId,
 				toDoItemId,
 				nameInput.value,
 				descriptionInput.value,
 				dateInput.value,
-				priorityInput.value
+				priorityInput.value,
+                newProjectId
 			);
 			editModal.remove();
-			renderToDos(projectId);
+			renderToDos(newProjectId);
 		});
 
 		const cancelButton = document.createElement('button');
