@@ -20,9 +20,24 @@ const ToDoItem = (projectId, name, description, date, priority) => {
 
 const createToDoItem = (projectId, name, description, date, priority) => {
     const project = getProject(projectId);
+    console.log('Project:', project);
+    if (!project) {
+		console.error('Project not found.');
+		return; // Exit the function if project is not found
+	}
 	const toDoItem = ToDoItem(projectId, name, description, date, priority);
+    console.log('New ToDo Item:', toDoItem); // Check the newly created ToDo item
+
+	if (!toDoItem) {
+		console.error('Failed to create ToDo item.');
+		return; // Exit the function if ToDo item creation fails
+	}
 	project.toDoItems.push(toDoItem);
 	saveToLocalStorage(projects, projectId);
+    console.log('ToDo item added successfully.');
+
+	// Optionally, you can also log the updated project to see if the ToDo item was added correctly
+	console.log('Updated Project:', project);
 };
 
 const editToDoItem = (

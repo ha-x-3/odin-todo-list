@@ -50,11 +50,11 @@ const UIController = (() => {
 		const projectList = document.createElement('ul');
 		projects.forEach((project) => {
 			const projectItem = document.createElement('li');
-            projectItem.addEventListener('click', () => {
-				renderToDos(project.id);
-				updateSelectedProjectColor(project.id);
-				updateSelectedProjectId(project.id);
-			});
+            // projectItem.addEventListener('click', () => {
+			// 	renderToDos(project.id);
+			// 	updateSelectedProjectColor(project.id);
+			// 	updateSelectedProjectId(project.id);
+			// });
 			projectItem.dataset.id = project.id;
 			const projectDetails = document.createElement('div');
 			projectDetails.classList.add('project-details');
@@ -238,6 +238,10 @@ const UIController = (() => {
 			projectOption.textContent = project.name;
 			projectSelect.appendChild(projectOption);
 		});
+        projectSelect.addEventListener('change', () => {
+			selectedProjectId = parseInt(projectSelect.value);
+			updateSelectedProjectId(selectedProjectId);
+		});
 		const toDoSubmitButton = document.createElement('button');
 		toDoSubmitButton.classList.add('submit-button');
 		toDoSubmitButton.textContent = 'Add ToDo';
@@ -346,7 +350,10 @@ const UIController = (() => {
 			projectOption.textContent = project.name;
 			projectSelect.appendChild(projectOption);
 		});
-
+        projectSelect.addEventListener('change', () => {
+			selectedProjectId = parseInt(projectSelect.value);
+			updateSelectedProjectId(selectedProjectId);
+		});
 		const saveButton = document.createElement('button');
 		saveButton.textContent = 'Save Changes';
 		saveButton.addEventListener('click', () => {
