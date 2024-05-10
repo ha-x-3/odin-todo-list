@@ -82,7 +82,6 @@ const UIController = (() => {
 
 			projectItem.addEventListener('click', () => {
 				renderToDos(project.id);
-				updateSelectedProjectColor(project.id);
 			});
 			projectDetails.appendChild(name);
 			projectItem.appendChild(projectDetails);
@@ -97,6 +96,11 @@ const UIController = (() => {
 			}
 		});
 		sidePanel.appendChild(projectList);
+
+		// Color the selected project on page load
+		if (selectedProjectId !== null) {
+			updateSelectedProjectColor(selectedProjectId);
+		}
 	};
 
 	const renderToDos = (projectId) => {
@@ -188,6 +192,8 @@ const UIController = (() => {
 		}
 
 		mainPanelDesc.style.display = 'none';
+
+        updateSelectedProjectColor(projectId);
 	};
 
 	const showModal = () => {
