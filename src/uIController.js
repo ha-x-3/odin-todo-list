@@ -20,8 +20,12 @@ let selectedProjectId = 'none';
 let selectedToDoItemId = 'none';
 
 const UIController = (() => {
-    selectedProjectId = getIdFromLocalStorage();
+    selectedProjectId = getFromLocalStorage();
     saveToLocalStorage(projects, selectedProjectId);
+    const updateSelectedProjectId = (projectId) => {
+		selectedProjectId = projectId;
+		saveToLocalStorage(projects, selectedProjectId);
+	};
 
 	const sidePanel = document.querySelector('#side-panel');
 	const mainPanel = document.querySelector('#main-panel');
@@ -46,6 +50,11 @@ const UIController = (() => {
 		const projectList = document.createElement('ul');
 		projects.forEach((project) => {
 			const projectItem = document.createElement('li');
+            projectItem.addEventListener('click', () => {
+				renderToDos(project.id);
+				updateSelectedProjectColor(project.id);
+				updateSelectedProjectId(project.id);
+			});
 			projectItem.dataset.id = project.id;
 			const projectDetails = document.createElement('div');
 			projectDetails.classList.add('project-details');
@@ -430,7 +439,7 @@ const UIController = (() => {
 					child.remove();
 				}
 			});
-			renderProjects();
+			//renderProjects();
 			editModal.remove();
 		});
 
@@ -482,6 +491,7 @@ const UIController = (() => {
 
 	// Render projects and to-do items on initial load
 	const initialize = () => {
+		selectedProjectId = getIdFromLocalStorage() || null;
 		renderProjects();
 		if (selectedProjectId !== null) {
 			renderToDos(selectedProjectId);
