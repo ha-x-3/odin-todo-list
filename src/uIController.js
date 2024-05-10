@@ -50,11 +50,6 @@ const UIController = (() => {
 		const projectList = document.createElement('ul');
 		projects.forEach((project) => {
 			const projectItem = document.createElement('li');
-            // projectItem.addEventListener('click', () => {
-			// 	renderToDos(project.id);
-			// 	updateSelectedProjectColor(project.id);
-			// 	updateSelectedProjectId(project.id);
-			// });
 			projectItem.dataset.id = project.id;
 			const projectDetails = document.createElement('div');
 			projectDetails.classList.add('project-details');
