@@ -1,10 +1,9 @@
 import {
 	createProject,
-	projectsData,
+	projects,
 	editProjectName,
 	deleteProject,
 	getProject,
-    selectedProjectId
 } from './project';
 import {
 	createToDoItem,
@@ -16,7 +15,14 @@ import {
 import { saveToLocalStorage, getFromLocalStorage, getIdFromLocalStorage } from './localStorage';
 import { format, formatDistanceToNow } from 'date-fns';
 
+let selectedProject = 'none';
+let selectedProjectId = 'none';
+let selectedToDoItemId = 'none';
+
 const UIController = (() => {
+    selectedProjectId = getIdFromLocalStorage();
+    saveToLocalStorage(projects, selectedProjectId);
+
 	const sidePanel = document.querySelector('#side-panel');
 	const mainPanel = document.querySelector('#main-panel');
 	const mainPanelDesc = document.querySelector('#main-panel-desc');
@@ -38,7 +44,7 @@ const UIController = (() => {
 
 	const renderProjects = () => {
 		const projectList = document.createElement('ul');
-		projectsData.projects.forEach((project) => {
+		projects.forEach((project) => {
 			const projectItem = document.createElement('li');
 			projectItem.dataset.id = project.id;
 			const projectDetails = document.createElement('div');
@@ -217,7 +223,7 @@ const UIController = (() => {
 			toDoPriorityInput.appendChild(priorityOption);
 		});
 		const projectSelect = document.createElement('select');
-		projectsData.projects.forEach((project) => {
+		projects.forEach((project) => {
 			const projectOption = document.createElement('option');
 			projectOption.value = project.id;
 			projectOption.textContent = project.name;
@@ -325,7 +331,7 @@ const UIController = (() => {
 		});
 
         const projectSelect = document.createElement('select');
-        projectsData.projects.forEach((project) => {
+        projects.forEach((project) => {
 			const projectOption = document.createElement('option');
 			projectOption.value = project.id;
 			projectOption.textContent = project.name;

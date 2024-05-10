@@ -1,18 +1,11 @@
-import { projectsData, getProject, getProjectIndex } from "./project";
-import { saveToLocalStorage, saveIncrementId, getIncrementId } from "./localStorage";
-
-let incrementId = (function () {
-	let id = getIncrementId();
-	return function () {
-		id++;
-		saveIncrementId(id);
-		return id;
-	};
-})();
+import { projects, getProject } from "./project";
+import { saveToLocalStorage } from "./localStorage";
 
 const ToDoItem = (projectId, name, description, date, priority) => {
 
-	let id = incrementId();
+	const project = getProject(projectId);
+	let projectTodoCount = project.toDoItems.length;
+	let id = `${projectId}-${projectTodoCount + 1}`;
     let complete = false;
     return {
         id,
@@ -28,15 +21,8 @@ const ToDoItem = (projectId, name, description, date, priority) => {
 const createToDoItem = (projectId, name, description, date, priority) => {
     const project = getProject(projectId);
 	const toDoItem = ToDoItem(projectId, name, description, date, priority);
-	const updatedProject = {
-		...project,
-		toDoItems: [...project.toDoItems, toDoItem],
-	};
-	const updatedProjects = projectsData.projects.map((p) =>
-		p.id === projectId ? updatedProject : p
-	);
-	projectsData.setProjects(updatedProjects);
-	saveToLocalStorage(projectsData.projects, projectId);
+	project.toDoItems.push(toDoItem);
+	saveToLocalStorage(projects, projectId);
 };
 
 const editToDoItem = (
@@ -47,67 +33,50 @@ const editToDoItem = (
     newDate,
     newPriority
 ) => {
-    const project = getProject(projectId);
-	const updatedToDoItems = project.toDoItems.map((toDoItem) =>
-		toDoItem.id === toDoItemId
-			? {
-					...toDoItem,
-					name: newName,
-					description: newDescription,
-					date: newDate,
-					priority: newPriority,
-			  }
-			: toDoItem
-	);
-	const updatedProject = { ...project, toDoItems: updatedToDoItems };
-	const updatedProjects = projectsData.projects.map((p) =>
-		p.id === projectId ? updatedProject : p
-	);
-	projectsData.setProjects(updatedProjects);
-	saveToLocalStorage(projectsData.projects, projectId);
+    const toDoItem = getToDoItem(projectId, toDoItemId);
+	
+    toDoItem.name = newName;
+    toDoItem.description = newDescription;
+    toDoItem.date = newDate;
+    toDoItem.priority = newPriority;
+	
+	saveToLocalStorage(projects, projectId);
 };
 
 const deleteToDoItem = (projectId, toDoItemId) => {
     const project = getProject(projectId);
-	const updatedToDoItems = project.toDoItems.filter(
-		(toDoItem) => toDoItem.id !== toDoItemId
-	);
-	const updatedProject = { ...project, toDoItems: updatedToDoItems };
-	const updatedProjects = projectsData.projects.map((p) =>
-		p.id === projectId ? updatedProject : p
-	);
-	projectsData.setProjects(updatedProjects);
-	saveToLocalStorage(projectsData.projects, projectId);
+	const toDoItemIndex = getToDoItemIndex(projectId, toDoItemId);
+    project.toDoItems.splice(toDoItemIndex, 1);
+	saveToLocalStorage(projects, projectId);
 };
 
 const markComplete = (projectId, toDoItemId) => {
     const project = getProject(projectId);
 	const toDoItem = getToDoItem(projectId, toDoItemId);
 	const toDoItemIndex = getToDoItemIndex(projectId, toDoItemId);
-	const updatedToDoItems = [...project.toDoItems];
-	updatedToDoItems.splice(toDoItemIndex, 1);
-	const updatedProject = {
-		...project,
-		toDoItems: updatedToDoItems,
-		completed: [toDoItem, ...project.completed],
-	};
-	const updatedProjects = projectsData.projects.map((p) =>
-		p.id === projectId ? updatedProject : p
-	);
-	projectsData.setProjects(updatedProjects);
-	saveToLocalStorage(projectsData.projects, projectId);
+    project.completed.unshift(toDoItem);
+	project.toDoItems.splice(toDoItemIndex, 1);
+	saveToLocalStorage(projects, projectId);
 };
 
 const getToDoItem = (projectId, toDoItemId) => {
     const project = getProject(projectId);
-	return project.toDoItems.find((toDoItem) => toDoItem.id === toDoItemId);
+	for (const key in project) {
+        if (key === "toDoItems") {
+            const toDoItem = project[key].find((toDoItem) => toDoItem.id === toDoItemId);
+            if (toDoItem) return toDoItem;
+        }
+    }
 };
 
 const getToDoItemIndex = (projectId, toDoItemId) => {
     const project = getProject(projectId);
-	return project.toDoItems.findIndex(
-		(toDoItem) => toDoItem.id === toDoItemId
-	);
+	for (let key in project) {
+        if ( key === "todoItems") {
+            const toDoItemIndex = project[key].findIndex((toDoItem) => toDoItem.id === toDoItemId);
+            if (toDoItemIndex) return toDoItemIndex;
+        }
+    }
 };
 
 export {
