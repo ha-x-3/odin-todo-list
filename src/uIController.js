@@ -127,7 +127,7 @@ const UIController = (() => {
 				checkbox.checked = toDoItem.complete;
 				checkbox.addEventListener('change', () => {
 					toDoItem.complete = checkbox.checked;
-					saveToLocalStorage(projectsData.projects, projectId);
+					saveToLocalStorage(projects, projectId);
 				});
 				const todoDetails = document.createElement('div');
 				todoDetails.classList.add('todo-details');
