@@ -15,12 +15,8 @@ import {
 import { saveToLocalStorage, getFromLocalStorage, getIdFromLocalStorage } from './localStorage';
 import { format, formatDistanceToNow } from 'date-fns';
 
-let selectedProject = 'none';
-let selectedProjectId = 'none';
-let selectedToDoItemId = 'none';
-
 const UIController = (() => {
-    selectedProjectId = getFromLocalStorage();
+    let selectedProjectId = getFromLocalStorage();
     saveToLocalStorage(projects, selectedProjectId);
     const updateSelectedProjectId = (projectId) => {
 		selectedProjectId = projectId;
