@@ -12,14 +12,18 @@ import {
 	markComplete,
 	getToDoItem,
 } from './toDoItem';
-import { saveToLocalStorage, getFromLocalStorage, getIdFromLocalStorage } from './localStorage';
+import {
+	saveToLocalStorage,
+	getFromLocalStorage,
+	getIdFromLocalStorage,
+} from './localStorage';
 import { format, formatDistanceToNow, isPast } from 'date-fns';
 import validator from 'validator';
 
 const UIController = (() => {
-    let selectedProjectId = getFromLocalStorage();
-    saveToLocalStorage(projects, selectedProjectId);
-    const updateSelectedProjectId = (projectId) => {
+	let selectedProjectId = getFromLocalStorage();
+	saveToLocalStorage(projects, selectedProjectId);
+	const updateSelectedProjectId = (projectId) => {
 		selectedProjectId = projectId;
 		saveToLocalStorage(projects, selectedProjectId);
 	};
@@ -29,7 +33,7 @@ const UIController = (() => {
 	const mainPanelDesc = document.querySelector('#main-panel-desc');
 	const addButton = document.querySelector('button');
 
-    const updateSelectedProjectColor = (projectId) => {
+	const updateSelectedProjectColor = (projectId) => {
 		// Remove the selected-project class from all project items
 		sidePanel.querySelectorAll('li').forEach((item) => {
 			item.classList.remove('selected-project');
@@ -101,10 +105,10 @@ const UIController = (() => {
 	};
 
 	const renderToDos = (projectId) => {
-        const formatDate = (dateString) => {
+		const formatDate = (dateString) => {
 			return format(new Date(dateString), 'MM-dd-yyyy');
 		};
-        
+
 		const project = getProject(projectId);
 		// Clear the existing content inside the mainPanel, except for the h2 element
 		const mainPanelChildren = Array.from(mainPanel.children);
@@ -142,7 +146,7 @@ const UIController = (() => {
 
 				const date = document.createElement('span');
 				date.classList.add('todo-due-date');
-                const isPastDue = isPast(new Date(toDoItem.date));
+				const isPastDue = isPast(new Date(toDoItem.date));
 				if (isPastDue) {
 					date.textContent = `Due: ${formatDate(
 						toDoItem.date
@@ -156,12 +160,12 @@ const UIController = (() => {
 						new Date(toDoItem.date)
 					)}!`;
 				}
-                //If due date in past, set background color to pink
-                if (toDoItem.complete) {
-                    toDoItemElement.style.backgroundColor = 'grey'
-                } else if (isPastDue) {
-                    toDoItemElement.style.backgroundColor = 'pink';
-                }
+				//If due date in past, set background color to pink
+				if (toDoItem.complete) {
+					toDoItemElement.style.backgroundColor = 'grey';
+				} else if (isPastDue) {
+					toDoItemElement.style.backgroundColor = 'pink';
+				}
 
 				const priorityBlock = document.createElement('div');
 				priorityBlock.classList.add('priority-block');
@@ -196,7 +200,7 @@ const UIController = (() => {
 				toDoItemElement.appendChild(checkbox);
 				toDoItemElement.appendChild(todoDetails);
 				toDoItemElement.appendChild(todoControls);
-                toDoItemElement.appendChild(priorityBlock);
+				toDoItemElement.appendChild(priorityBlock);
 
 				toDoList.appendChild(toDoItemElement);
 			});
@@ -209,7 +213,7 @@ const UIController = (() => {
 
 		mainPanelDesc.style.display = 'none';
 
-        updateSelectedProjectColor(projectId);
+		updateSelectedProjectColor(projectId);
 	};
 
 	const showModal = () => {
@@ -227,7 +231,7 @@ const UIController = (() => {
 		projectSubmitButton.classList.add('submit-button');
 		projectSubmitButton.textContent = 'Add Project';
 		projectSubmitButton.addEventListener('click', () => {
-            const projectName = projectInput.value.trim(); // Trim whitespace
+			const projectName = projectInput.value.trim(); // Trim whitespace
 
 			// Validate project name using validator.js
 			const errors = validator.isEmpty(projectName)
@@ -264,17 +268,17 @@ const UIController = (() => {
 			toDoPriorityInput.appendChild(priorityOption);
 		});
 		const projectSelect = document.createElement('select');
-        const defaultOption = document.createElement('option');
+		const defaultOption = document.createElement('option');
 		defaultOption.value = '';
 		defaultOption.textContent = 'Pick a Project';
-        projectSelect.appendChild(defaultOption);
+		projectSelect.appendChild(defaultOption);
 		projects.forEach((project) => {
 			const projectOption = document.createElement('option');
 			projectOption.value = project.id;
 			projectOption.textContent = project.name;
 			projectSelect.appendChild(projectOption);
 		});
-        projectSelect.addEventListener('change', () => {
+		projectSelect.addEventListener('change', () => {
 			selectedProjectId = parseInt(projectSelect.value);
 			updateSelectedProjectId(selectedProjectId);
 		});
@@ -282,29 +286,29 @@ const UIController = (() => {
 		toDoSubmitButton.classList.add('submit-button');
 		toDoSubmitButton.textContent = 'Add ToDo';
 		toDoSubmitButton.addEventListener('click', () => {
-            const toDoName = toDoNameInput.value.trim();
-            const toDoDescription = toDoDescInput.value.trim();
-            const toDoDate = toDoDateInput.value;
-            const selectedProject = projectSelect.value;
+			const toDoName = toDoNameInput.value.trim();
+			const toDoDescription = toDoDescInput.value.trim();
+			const toDoDate = toDoDateInput.value;
+			const selectedProject = projectSelect.value;
 
-            // Validate to-do item details
-            const errors = [];
-            if (validator.isEmpty(toDoName)) {
-                errors.push('To-do name is required.');
-            }
-            if (validator.isEmpty(toDoDescription)) {
+			// Validate to-do item details
+			const errors = [];
+			if (validator.isEmpty(toDoName)) {
+				errors.push('To-do name is required.');
+			}
+			if (validator.isEmpty(toDoDescription)) {
 				errors.push('To-do description is required.');
 			}
-            if (validator.isEmpty(toDoDate)) {
+			if (validator.isEmpty(toDoDate)) {
 				errors.push('To-do date is required.');
 			}
-            if (selectedProject === '') {
-                errors.push('Please select a project.');
-            }
-            if (errors.length > 0) {
-                alert(errors.join('\n')); // Display validation errors
-                return; // Prevent form submission if there are errors
-            }
+			if (selectedProject === '') {
+				errors.push('Please select a project.');
+			}
+			if (errors.length > 0) {
+				alert(errors.join('\n')); // Display validation errors
+				return; // Prevent form submission if there are errors
+			}
 			createToDoItem(
 				selectedProjectId,
 				toDoNameInput.value,
@@ -358,7 +362,7 @@ const UIController = (() => {
 		});
 		tabButtons.appendChild(projectTabButton);
 		tabButtons.appendChild(toDoTabButton);
-        tabButtons.appendChild(closeButton);
+		tabButtons.appendChild(closeButton);
 
 		modalContent.appendChild(tabButtons);
 		modalContent.appendChild(projectTab);
@@ -402,25 +406,25 @@ const UIController = (() => {
 			priorityInput.appendChild(priorityOption);
 		});
 
-        const projectSelect = document.createElement('select');
-        const defaultOption = document.createElement('option');
+		const projectSelect = document.createElement('select');
+		const defaultOption = document.createElement('option');
 		defaultOption.value = '';
 		defaultOption.textContent = 'Pick a Project';
-        projectSelect.appendChild(defaultOption);
-        projects.forEach((project) => {
+		projectSelect.appendChild(defaultOption);
+		projects.forEach((project) => {
 			const projectOption = document.createElement('option');
 			projectOption.value = project.id;
 			projectOption.textContent = project.name;
 			projectSelect.appendChild(projectOption);
 		});
-        projectSelect.addEventListener('change', () => {
+		projectSelect.addEventListener('change', () => {
 			selectedProjectId = parseInt(projectSelect.value);
 			updateSelectedProjectId(selectedProjectId);
 		});
 		const saveButton = document.createElement('button');
 		saveButton.textContent = 'Save Changes';
 		saveButton.addEventListener('click', () => {
-            const newProjectId = parseInt(projectSelect.value);
+			const newProjectId = parseInt(projectSelect.value);
 			editToDoItem(
 				projectId,
 				toDoItemId,
@@ -428,7 +432,7 @@ const UIController = (() => {
 				descriptionInput.value,
 				dateInput.value,
 				priorityInput.value,
-                newProjectId
+				newProjectId
 			);
 			editModal.remove();
 			renderToDos(newProjectId);
@@ -444,7 +448,7 @@ const UIController = (() => {
 		modalContent.appendChild(descriptionInput);
 		modalContent.appendChild(dateInput);
 		modalContent.appendChild(priorityInput);
-        modalContent.appendChild(projectSelect);
+		modalContent.appendChild(projectSelect);
 		modalContent.appendChild(saveButton);
 		modalContent.appendChild(cancelButton);
 

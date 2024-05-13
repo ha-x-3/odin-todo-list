@@ -1,288 +1,295 @@
 @font-face {
-  font-family: 'ArchitectsDaughter';
-  font-style: normal;
-  src: url('./ArchitectsDaughter-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
+	font-family: 'ArchitectsDaughter';
+	font-style: normal;
+	src: url('./ArchitectsDaughter-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
 }
 
 * {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 body {
-    background-image: url('./deskBackground.jpg');
-    background-size: cover;
-    background-position: top;
-    background-repeat: no-repeat;
-    height: 100vh;
-    width: 100vw;
-    background-color: #d1dae4;
-    display: flex;
-    flex-direction: column;
-    font-family: 'ArchitectsDaughter';
+	background-image: url('./deskBackground.jpg');
+	background-size: cover;
+	background-position: top;
+	background-repeat: no-repeat;
+	height: 100vh;
+	width: 100vw;
+	background-color: #d1dae4;
+	display: flex;
+	flex-direction: column;
+	font-family: 'ArchitectsDaughter';
 }
 
 header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px 20px 20px;
-    height: 75px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 20px 20px 20px;
+	height: 75px;
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
+	position: fixed;
+	bottom: 0;
 }
 
 footer a {
-    text-decoration: none;
-    color: black;
-    height: 5vh;
+	text-decoration: none;
+	color: black;
+	height: 5vh;
 }
 
 h1 {
-    font-size: 38px;
+	font-size: 38px;
 }
 
 h2 {
-    font-size: 30px;
-    text-decoration: underline;
-    padding-bottom: 10px;
+	font-size: 30px;
+	text-decoration: underline;
+	padding-bottom: 10px;
 }
 
 ul {
-    width: 90%;
+	width: 90%;
 }
 
 #content {
-    display: flex;
-    flex-direction: row;
-    height: calc(100vh - 75px);
+	display: flex;
+	flex-direction: row;
+	height: calc(100vh - 75px);
 }
 
-#side-panel, #main-panel {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 0 0 15px;
-  height: 65%;
-  border-radius: 8px;
+#side-panel,
+#main-panel {
+	display: flex;
+	flex-direction: column;
+	padding: 10px 0 0 15px;
+	height: 65%;
+	border-radius: 8px;
 }
 
 #side-panel {
-  width: 25vw;
-  margin-left: 5px;
-  background-color: rgba(169, 169, 169, 0.5);
-  overflow: scroll;
+	width: 25vw;
+	margin-left: 5px;
+	background-color: rgba(169, 169, 169, 0.5);
+	overflow: scroll;
 }
 
 #main-panel {
-  width: 85vw;
-  margin-left: 20px;
-  overflow: scroll;
+	width: 85vw;
+	margin-left: 20px;
+	overflow: scroll;
 }
 
 #main-panel-desc {
-    align-self: center;
-    margin: 150px auto 0 auto;
+	align-self: center;
+	margin: 150px auto 0 auto;
 }
 
 .selected-project {
-    background-color: #ebf900;
+	background-color: #ebf900;
 }
 
 /* Modal Styles */
 .modal {
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .modal-content {
-  background-color: #fefefe;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 40%;
-  max-width: 500px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	background-color: #fefefe;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 40%;
+	max-width: 500px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .modal-content > * {
-  margin-bottom: 10px; /* Add some vertical spacing between elements */
+	margin-bottom: 10px; /* Add some vertical spacing between elements */
 }
 
-.modal-content input[type="date"],
+.modal-content input[type='date'],
 .modal-content select {
-  flex-grow: 1;
-  margin: 14px;
+	flex-grow: 1;
+	margin: 14px;
 }
 
 .modal-content .add-button {
-  width: 100px;
+	width: 100px;
 }
 
 /* Tab Styles */
 .tab-buttons {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
+	display: flex;
+	justify-content: space-around;
+	margin-bottom: 20px;
 }
 
 .tab-buttons button {
-  background-color: #4CAF50;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 10px 20px;
-  transition: 0.3s;
-  border-radius: 5px;
+	background-color: #4caf50;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 10px 20px;
+	transition: 0.3s;
+	border-radius: 5px;
 }
 
-.tab-buttons button.active, .submit-button {
-  filter: hue-rotate(90deg);
+.tab-buttons button.active,
+.submit-button {
+	filter: hue-rotate(90deg);
 }
 
 .tab {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-radius: 0 0 5px 5px;
+	display: none;
+	padding: 6px 12px;
+	border: 1px solid #ccc;
+	border-radius: 0 0 5px 5px;
 }
 
 .tab.active {
-  display: block;
+	display: block;
 }
 
 /* Input Styles */
-input[type="text"] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+input[type='text'] {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
 }
 
 /* Button Styles */
 button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+	background-color: #4caf50;
+	color: white;
+	padding: 10px 20px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
 }
 
 button:hover {
-  filter: hue-rotate(90deg);
+	filter: hue-rotate(90deg);
 }
 
 .add-button {
-    height: 50px;
-    width: 50px;
-    font-family: 'ArchitectsDaughter';
-    font-size: 18px;
-    background-color: rgba(101, 136, 31, 1);
-    color: white;
-    border-radius: 6px;
+	height: 50px;
+	width: 50px;
+	font-family: 'ArchitectsDaughter';
+	font-size: 18px;
+	background-color: rgba(101, 136, 31, 1);
+	color: white;
+	border-radius: 6px;
 }
 
 /* Project and ToDo Item Styles */
 li {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	margin-bottom: 10px;
+	padding: 10px;
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-li input[type="checkbox"] {
-  margin-right: 10px;
+li input[type='checkbox'] {
+	margin-right: 10px;
 }
 
 li .todo-details {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
 }
 
 li .project-details {
-    flex-grow: 1;
+	flex-grow: 1;
 }
 
 li .todo-name {
-  font-size: 20px;
-  margin-bottom: 5px;
+	font-size: 20px;
+	margin-bottom: 5px;
 }
 
 li .project-name {
-    font-size: 20px;
+	font-size: 20px;
 }
 
 li .todo-description,
 li .todo-due-date {
-  margin-bottom: 2px;
+	margin-bottom: 2px;
 }
 
 li .priority-block {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  margin-left: 20px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	margin-left: 20px;
 }
 
 .priority-low {
-  background-color: green;
+	background-color: green;
 }
 
 .priority-medium {
-  background-color: orange;
+	background-color: orange;
 }
 
 .priority-high {
-  background-color: red;
+	background-color: red;
 }
 
 /* Edit and Delete Button Styles */
-.project-controls, .todo-controls {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+.project-controls,
+.todo-controls {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
 }
 
-.project-controls button, .todo-controls button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  margin-left: 10px;
-  font-size: 14px;
-  color: #666;
+.project-controls button,
+.todo-controls button {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	margin-left: 10px;
+	font-size: 14px;
+	color: #666;
 }
 
-.project-controls button:hover, .todo-controls button:hover {
-  color: #333;
+.project-controls button:hover,
+.todo-controls button:hover {
+	color: #333;
 }
 
-.project-controls .edit-btn, .todo-controls .edit-btn {
-  color: #4CAF50;
+.project-controls .edit-btn,
+.todo-controls .edit-btn {
+	color: #4caf50;
 }
 
-.project-controls .delete-btn, .todo-controls .delete-btn {
-  color: #f44336;
+.project-controls .delete-btn,
+.todo-controls .delete-btn {
+	color: #f44336;
 }
