@@ -244,9 +244,9 @@ li .todo-due-date {
 
 li .priority-block {
 	width: 20px;
-	height: 20px;
-	border-radius: 50%;
-	margin-left: 20px;
+	height: 75px;
+	border-radius: 2px;
+	margin-left: 10px;
 }
 
 .priority-low {

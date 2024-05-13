@@ -421,9 +421,33 @@ const UIController = (() => {
 			selectedProjectId = parseInt(projectSelect.value);
 			updateSelectedProjectId(selectedProjectId);
 		});
+        projectSelect.value = toDoItem.projectId;
 		const saveButton = document.createElement('button');
 		saveButton.textContent = 'Save Changes';
 		saveButton.addEventListener('click', () => {
+            const toDoName = nameInput.value.trim();
+			const toDoDescription = descriptionInput.value.trim();
+			const toDoDate = dateInput.value;
+			const selectedProject = projectSelect.value;
+
+			// Validate to-do item details
+			const errors = [];
+			if (validator.isEmpty(toDoName)) {
+				errors.push('To-do name is required.');
+			}
+			if (validator.isEmpty(toDoDescription)) {
+				errors.push('To-do description is required.');
+			}
+			if (validator.isEmpty(toDoDate)) {
+				errors.push('To-do date is required.');
+			}
+			if (selectedProject === '') {
+				errors.push('Please select a project.');
+			}
+			if (errors.length > 0) {
+				alert(errors.join('\n')); // Display validation errors
+				return; // Prevent form submission if there are errors
+			}
 			const newProjectId = parseInt(projectSelect.value);
 			editToDoItem(
 				projectId,
@@ -506,7 +530,18 @@ const UIController = (() => {
 		const saveButton = document.createElement('button');
 		saveButton.textContent = 'Save Changes';
 		saveButton.addEventListener('click', () => {
-			const newName = nameInput.value;
+            const projectName = nameInput.value.trim(); // Trim whitespace
+
+			// Validate project name using validator.js
+			const errors = validator.isEmpty(projectName)
+				? ['Project name is required.']
+				: [];
+
+			if (errors.length > 0) {
+				alert(errors.join('\n')); // Display validation errors
+				return; // Prevent form submission if there are errors
+			}
+			const newName = projectName;
 			editProjectName(projectId, newName);
 			// Clear the existing content inside the sidePanel, except for the h2 element
 			const sidePanelChildren = Array.from(sidePanel.children);
