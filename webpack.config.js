@@ -19,8 +19,8 @@ module.exports = {
 		filename: '[name].bundle.js',
 		path: path.resolve(__dirname, 'dist'),
 		clean: true,
-		// publicPath: '/odin-todo-list/', // <--production path
-		publicPath: '/', // <--development path
+		publicPath: '/odin-todo-list/', // <--production path
+		//publicPath: '/', // <--development path
 	},
 	externals: {
 		express: 'express',
