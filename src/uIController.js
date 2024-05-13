@@ -13,7 +13,7 @@ import {
 	getToDoItem,
 } from './toDoItem';
 import { saveToLocalStorage, getFromLocalStorage, getIdFromLocalStorage } from './localStorage';
-import { format, formatDistanceToNow } from 'date-fns';
+import { format, formatDistanceToNow, isPast } from 'date-fns';
 
 const UIController = (() => {
     let selectedProjectId = getFromLocalStorage();
@@ -124,9 +124,9 @@ const UIController = (() => {
 					markComplete(projectId, toDoItem.id);
 				});
 				// If the to-do item is completed, change its background color
-				if (toDoItem.complete) {
-					toDoItemElement.style.backgroundColor = 'grey';
-				}
+				// if (toDoItem.complete) {
+				// 	toDoItemElement.style.backgroundColor = 'grey';
+				// }  ...moved to date block so that overdue but complete items are grey
 
 				const todoDetails = document.createElement('div');
 				todoDetails.classList.add('todo-details');
@@ -141,7 +141,26 @@ const UIController = (() => {
 
 				const date = document.createElement('span');
 				date.classList.add('todo-due-date');
-				date.textContent = `Due: ${formatDate(toDoItem.date)}, which is in ${formatDistanceToNow(toDoItem.date)}!`;
+                const isPastDue = isPast(new Date(toDoItem.date));
+				if (isPastDue) {
+					date.textContent = `Due: ${formatDate(
+						toDoItem.date
+					)}, which was ${formatDistanceToNow(
+						new Date(toDoItem.date)
+					)} ago!`;
+				} else {
+					date.textContent = `Due: ${formatDate(
+						toDoItem.date
+					)}, which is in ${formatDistanceToNow(
+						new Date(toDoItem.date)
+					)}!`;
+				}
+                //If due date in past, set background color to pink
+                if (toDoItem.complete) {
+                    toDoItemElement.style.backgroundColor = 'grey'
+                } else if (isPastDue) {
+                    toDoItemElement.style.backgroundColor = 'pink';
+                }
 
 				const priorityBlock = document.createElement('div');
 				priorityBlock.classList.add('priority-block');
