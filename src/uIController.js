@@ -14,6 +14,7 @@ import {
 } from './toDoItem';
 import { saveToLocalStorage, getFromLocalStorage, getIdFromLocalStorage } from './localStorage';
 import { format, formatDistanceToNow, isPast } from 'date-fns';
+import validator from 'validator';
 
 const UIController = (() => {
     let selectedProjectId = getFromLocalStorage();
@@ -226,6 +227,17 @@ const UIController = (() => {
 		projectSubmitButton.classList.add('submit-button');
 		projectSubmitButton.textContent = 'Add Project';
 		projectSubmitButton.addEventListener('click', () => {
+            const projectName = projectInput.value.trim(); // Trim whitespace
+
+			// Validate project name using validator.js
+			const errors = validator.isEmpty(projectName)
+				? ['Project name is required.']
+				: [];
+
+			if (errors.length > 0) {
+				alert(errors.join('\n')); // Display validation errors
+				return; // Prevent form submission if there are errors
+			}
 			createProject(projectInput.value);
 			renderProjects();
 			modal.remove();
@@ -270,6 +282,29 @@ const UIController = (() => {
 		toDoSubmitButton.classList.add('submit-button');
 		toDoSubmitButton.textContent = 'Add ToDo';
 		toDoSubmitButton.addEventListener('click', () => {
+            const toDoName = toDoNameInput.value.trim();
+            const toDoDescription = toDoDescInput.value.trim();
+            const toDoDate = toDoDateInput.value;
+            const selectedProject = projectSelect.value;
+
+            // Validate to-do item details
+            const errors = [];
+            if (validator.isEmpty(toDoName)) {
+                errors.push('To-do name is required.');
+            }
+            if (validator.isEmpty(toDoDescription)) {
+				errors.push('To-do description is required.');
+			}
+            if (validator.isEmpty(toDoDate)) {
+				errors.push('To-do date is required.');
+			}
+            if (selectedProject === '') {
+                errors.push('Please select a project.');
+            }
+            if (errors.length > 0) {
+                alert(errors.join('\n')); // Display validation errors
+                return; // Prevent form submission if there are errors
+            }
 			createToDoItem(
 				selectedProjectId,
 				toDoNameInput.value,

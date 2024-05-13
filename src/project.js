@@ -1,4 +1,4 @@
-import { getFromLocalStorage, saveToLocalStorage, getIdFromLocalStorage } from "./localStorage";
+import { getFromLocalStorage, saveToLocalStorage } from "./localStorage";
 
 let projects = getFromLocalStorage() || [];
 
